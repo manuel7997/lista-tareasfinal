@@ -1,0 +1,28 @@
+[
+  {
+    "id": "2bb68c03-03a4-4e25-bed8-4b8a91b47978",
+    "titulo": "gim",
+    "descripcion": "piernas",
+    "estado": "Pendiente",
+    "vencimiento": "2027-06-09",
+    "dificultad": "facil",
+    "prioridad": "alta",
+    "relacionadas": [],
+    "deleted": false,
+    "createdAt": "2025-12-01T22:43:52.007Z",
+    "updatedAt": "2025-12-01T22:43:52.007Z"
+  },
+  {
+    "id": "a2af3d73-9f8b-47a2-b0c4-a140ec9ca250",
+    "titulo": "gym3",
+    "descripcion": "brazos",
+    "estado": "Pendiente",
+    "vencimiento": null,
+    "dificultad": "media",
+    "prioridad": "alta",
+    "relacionadas": [],
+    "deleted": false,
+    "createdAt": "2025-12-02T00:58:03.079Z",
+    "updatedAt": "2025-12-02T00:58:03.079Z"
+  }
+]
