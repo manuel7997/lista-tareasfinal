@@ -14,6 +14,20 @@ export type Estado = "Pendiente" | "En Curso" | "Completada";
 export type Dificultad = "Fácil" | "Media" | "Difícil";
 export type Prioridad = "Alta" | "Media" | "Baja";
 
+type TareaJSON = {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  estado: Estado;
+  vencimiento: string | null;
+  dificultad: Dificultad;
+  prioridad: Prioridad;
+  relacionadas: string[];
+  deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 /**
  * Tarea — entidad con responsabilidad única: representar una tarea.
  */
@@ -56,18 +70,18 @@ export class Tarea extends Entity {
     deleted = false
   ) {
     super(id, createdAt);
-    this._titulo = titulo;
-    this._descripcion = descripcion;
-    this._estado = estado;
-    this._vencimiento = vencimiento;
-    this._dificultad = dificultad;
-    this._prioridad = prioridad;
-    this._relacionadas = relacionadas;
-    this._deleted = deleted;
+this._titulo = titulo;
+this._descripcion = descripcion;
+this._estado = estado;
+this._vencimiento = vencimiento;
+this._dificultad = dificultad;
+this._prioridad = prioridad;
+this._relacionadas = relacionadas;
+this._deleted = deleted;
 
-    if (updatedAt) {
-      (this as any)._updatedAt = updatedAt;
-    }
+if (updatedAt) {
+  this._updatedAt = updatedAt;
+}
   }
 
   /* ---------- Getters (sólo lectura desde fuera) ---------- */
@@ -215,7 +229,7 @@ export class Tarea extends Entity {
    *
    * @returns {Record<string, unknown>} Objeto serializable.
    */
-  toJSON(): Record<string, unknown> {
+  toJSON(): TareaJSON {
     return {
       id: this.id,
       titulo: this.titulo,
@@ -239,7 +253,7 @@ export class Tarea extends Entity {
    * @example
    * const tarea = Tarea.fromJSON(jsonObj);
    */
-  static fromJSON(obj: any): Tarea {
+  static fromJSON(obj: TareaJSON): Tarea {
     return new Tarea(
       obj.id,
       obj.titulo,
@@ -250,8 +264,7 @@ export class Tarea extends Entity {
       obj.prioridad,
       obj.relacionadas ?? [],
       obj.createdAt,
-      obj.updatedAt,
-      !!obj.deleted
+      obj.updatedAt
     );
   }
 

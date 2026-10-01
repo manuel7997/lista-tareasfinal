@@ -71,3 +71,11 @@ export const validarPrioridad = (p: unknown): ValidationResult => {
 export const chainValidations = (...validators: (() => ValidationResult)[]): ValidationResult =>
   validators.map((v) => v()).find((r) => r.ok === false) ?? { ok: true };
 
+export const validarEstado = (estado: unknown): ValidationResult => {
+  const estados = ["Pendiente", "En Curso", "Completada"];
+
+  return typeof estado === "string" && estados.includes(estado)
+    ? { ok: true }
+    : { ok: false, reason: "Estado inválido" };
+};
+

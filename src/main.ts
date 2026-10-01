@@ -8,7 +8,19 @@
 
 import promptSync from "prompt-sync";
 import { TaskService } from "./negocio/tareas";
+import { Tarea, Dificultad, Prioridad, Estado } from "./models/Tarea";
 import { difficultyToEmoji, difficultyToStars } from "./negocio/emojis";
+
+type TareaPatch = Partial<{
+  titulo: string;
+  descripcion: string;
+  estado: Estado;
+  vencimiento: string | null;
+  dificultad: Dificultad;
+  prioridad: Prioridad;
+}>;
+
+type OrdenTarea = "titulo" | "vencimiento" | "creacion" | "dificultad";
 
 const prompt = promptSync({ sigint: true });
 const service = new TaskService();
@@ -16,10 +28,10 @@ const service = new TaskService();
 /**
  * Muestra una tarea en formato humano legible (presentación).
  *
- * @param {any} t Objeto Tarea (serializable).
+ * @param {Tarea} t Tarea a mostrar. 
  * @param {number} idx Índice para mostrar.
  */
-const showTask = (t: any, idx: number) => {
+const showTask = (t: Tarea, idx: number) => {
   console.log(
     `${idx}. ${t.titulo} [${t.dificultad} ${difficultyToEmoji(t.dificultad)} ${difficultyToStars(t.dificultad)}] ID:${t.id} Estado:${t.estado} Venc:${t.vencimiento ?? "-"} ${t.deleted ? "[ELIMINADA]" : ""}`
   );
@@ -61,8 +73,8 @@ const run = async () => {
         titulo,
         descripcion,
         vencimiento: venc || null,
-        dificultad: (dificultad as any) || "Fácil",
-        prioridad: (prioridad as any) || "Media",
+        dificultad: (dificultad || "Fácil") as Dificultad,
+        prioridad: (prioridad || "Media") as Prioridad,
         relacionadas: rel,
       });
 
@@ -77,7 +89,8 @@ const run = async () => {
     if (opt === "2") {
       const by = prompt("Ordenar por (titulo/vencimiento/creacion/dificultad) o Enter para default: ");
       const asc = prompt("Ascendente? (s/n): ") !== "n";
-      const list = await service.listSorted((by as any) || "creacion", asc);
+      const orden: OrdenTarea = (by || "creacion") as OrdenTarea;
+      const list = await service.listSorted(orden, asc);
       list.forEach(showTask);
       continue;
     }
@@ -90,12 +103,12 @@ const run = async () => {
       const dificultad = prompt("Nueva dificultad (Fácil/Media/Difícil) (enter para mantener): ");
       const venc = prompt("Nuevo vencimiento (YYYY-MM-DD) (enter para mantener): ");
 
-      const patch: any = {};
+      const patch: TareaPatch = {};
       if (titulo) patch.titulo = titulo;
       if (descripcion) patch.descripcion = descripcion;
-      if (estado) patch.estado = estado;
-      if (dificultad) patch.dificultad = dificultad;
-      if (venc) patch.vencimiento = venc || null;
+      if (estado) patch.estado = estado as Estado;
+      if (dificultad) patch.dificultad = dificultad as Dificultad;
+      if (venc) patch.vencimiento = venc;
 
       const r = await service.updateTask(id, patch);
       if (!r.ok) console.log("Error:", r.reason);

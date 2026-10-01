@@ -52,7 +52,8 @@ export class TaskService {
     const validation = validators.chainValidations(
       () => validators.validarTituloNoVacio(props.titulo),
       () => validators.validarFechaISO(props.vencimiento ?? null),
-      () => validators.validarDificultad(props.dificultad ?? "Fácil")
+      () => validators.validarDificultad(props.dificultad ?? "Fácil"),
+      () => validators.validarPrioridad(props.prioridad ?? "Media")
     );
     if (!validation.ok) return { ok: false, reason: validation.reason };
 
@@ -163,9 +164,15 @@ export class TaskService {
    * @returns {Promise<Tarea[]>}
    */
   async getOverdue(includeDeleted = false): Promise<Tarea[]> {
-    const tareas = await this.store.loadAll();
-    return tareas.filter((t) => (includeDeleted ? true : !t.deleted) && predicates.isOverdue(t));
-  }
+  const tareas = await this.store.loadAll();
+  const fechaActual = new Date();
+
+  return tareas.filter(
+    (t) =>
+      (includeDeleted ? true : !t.deleted) &&
+      predicates.isOverdue(fechaActual)(t)
+  );
+}
 
   /**
    * Lista ordenada por: titulo|vencimiento|creacion|dificultad.

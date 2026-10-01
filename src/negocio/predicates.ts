@@ -29,11 +29,16 @@ export const isHighPriority = (t: Tarea): boolean => t.prioridad === "Alta";
  * @param {Tarea} t
  * @returns {boolean}
  */
-export const isOverdue = (t: Tarea): boolean => {
+export const isOverdue = (fechaActual: Date) => (t: Tarea): boolean => {
+
   if (!t.vencimiento) return false;
+
   const d = new Date(t.vencimiento);
+
   if (isNaN(d.getTime())) return false;
-  return d < new Date();
+
+  return d < fechaActual;
+
 };
 
 /**
