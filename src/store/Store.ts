@@ -6,13 +6,13 @@
  */
 
 import { Database } from "../database/Database";
-import { Tarea } from "../models/Tarea";
+import { Tarea, TareaJSON } from "../models/Tarea";
 
 /**
  * Store — gestor de persistencia para Tarea.
  */
 export class Store {
-  private db = new Database<any>();
+  private db = new Database<TareaJSON>();
 
   /**
    * Carga todas las tareas desde la DB y las transforma a objetos Tarea.
@@ -21,7 +21,7 @@ export class Store {
    */
   async loadAll(): Promise<Tarea[]> {
     const raw = await this.db.load([]);
-    return (raw ?? []).map((r: any) => Tarea.fromJSON(r));
+    return raw.map((r: TareaJSON) => Tarea.fromJSON(r));
   }
 
   /**

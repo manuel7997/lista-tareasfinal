@@ -28,9 +28,11 @@ export const readJsonFile = async <T>(): Promise<T | null> => {
   try {
     const raw = await fs.readFile(dataPath(), "utf-8");
     return JSON.parse(raw) as T;
-  } catch (e: any) {
-    // Si no existe, devolvemos null; si es otro error, lo propagamos
-    if (e.code === "ENOENT") return null;
+  } catch (e: unknown) {
+    if (e instanceof Error && "code" in e && e.code === "ENOENT") {
+      return null;
+    }
+
     throw e;
   }
 };

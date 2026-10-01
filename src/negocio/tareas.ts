@@ -210,20 +210,12 @@ export class TaskService {
    * @returns {Promise<{total:number,byEstado:Record<string,number>,byDificultad:Record<string,number>}>}
    */
   async stats(includeDeleted = false) {
-    const tareas = await this.store.loadAll();
-    const total = tareas.filter((t) => (includeDeleted ? true : !t.deleted)).length;
-    const byEstado = tareas
-      .filter((t) => (includeDeleted ? true : !t.deleted))
-      .reduce((acc: Record<string, number>, t) => {
-        acc[t.estado] = (acc[t.estado] || 0) + 1;
-        return acc;
-      }, {});
-    const byDificultad = tareas
-      .filter((t) => (includeDeleted ? true : !t.deleted))
-      .reduce((acc: Record<string, number>, t) => {
-        acc[t.dificultad] = (acc[t.dificultad] || 0) + 1;
-        return acc;
-      }, {});
-    return { total, byEstado, byDificultad };
-  }
+  const tareas = await this.store.loadAll();
+
+  return {
+    total: reports.totalTareas(tareas, includeDeleted),
+    byEstado: reports.countByEstado(tareas, includeDeleted),
+    byDificultad: reports.countByDificultad(tareas, includeDeleted),
+  };
+} 
 }

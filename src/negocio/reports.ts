@@ -59,7 +59,7 @@ export const toPercent = (count: number, total: number): number =>
  * Stats por estado: devuelve { total, byEstado: { estado: {count, percent} } }.
  *
  * @param {Tarea[]} tareas
- * @returns {Record<string, any>}
+ * @returns {{ total: number; byEstado: Record<string, { count: number; percent: number }> }}
  */
 export const statsByEstado = (tareas: Tarea[]) => {
   const total = totalTareas(tareas);
@@ -77,7 +77,7 @@ export const statsByEstado = (tareas: Tarea[]) => {
  * Stats por dificultad: { total, byDificultad: { dif: {count, percent} } }.
  *
  * @param {Tarea[]} tareas
- * @returns {Record<string, any>}
+  * @returns {{ total: number; byDificultad: Record<string, { count: number; percent: number }> }}
  */
 export const statsByDificultad = (tareas: Tarea[]) => {
   const total = totalTareas(tareas);

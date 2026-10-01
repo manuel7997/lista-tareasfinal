@@ -14,7 +14,7 @@ export type Estado = "Pendiente" | "En Curso" | "Completada";
 export type Dificultad = "Fácil" | "Media" | "Difícil";
 export type Prioridad = "Alta" | "Media" | "Baja";
 
-type TareaJSON = {
+export type TareaJSON = {
   id: string;
   titulo: string;
   descripcion: string;
@@ -227,7 +227,7 @@ if (updatedAt) {
   /**
    * Serializa la tarea para persistencia (JSON-safe).
    *
-   * @returns {Record<string, unknown>} Objeto serializable.
+   * @returns {TareaJSON} Objeto serializable.
    */
   toJSON(): TareaJSON {
     return {
@@ -246,13 +246,13 @@ if (updatedAt) {
   }
 
   /**
-   * Reconstruye una Tarea a partir de un objeto (p. ej. JSON).
-   *
-   * @param {any} obj Objeto con propiedades serializadas.
-   * @returns {Tarea} Instancia restaurada.
-   * @example
-   * const tarea = Tarea.fromJSON(jsonObj);
-   */
+ * Reconstruye una Tarea a partir de un objeto (p. ej. JSON).
+ *
+ * @param {TareaJSON} obj Objeto con propiedades serializadas.
+ * @returns {Tarea} Instancia restaurada.
+ * @example
+ * const tarea = Tarea.fromJSON(jsonObj);
+ */
   static fromJSON(obj: TareaJSON): Tarea {
     return new Tarea(
       obj.id,

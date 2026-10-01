@@ -23,6 +23,19 @@
     "relacionadas": [],
     "deleted": false,
     "createdAt": "2025-12-02T00:58:03.079Z",
-    "updatedAt": "2025-12-02T00:58:03.079Z"
+    "updatedAt": "2026-10-01T23:14:54.582Z"
+  },
+  {
+    "id": "280e91af-09e2-449d-8caa-28ec81e0d28a",
+    "titulo": "Piernas",
+    "descripcion": "Fuerza",
+    "estado": "En Curso",
+    "vencimiento": "2026-12-13",
+    "dificultad": "Media",
+    "prioridad": "Alta",
+    "relacionadas": [],
+    "deleted": false,
+    "createdAt": "2026-10-01T23:13:08.692Z",
+    "updatedAt": "2026-10-01T23:15:53.412Z"
   }
 ]
